@@ -10,8 +10,8 @@ import reduce from 'lodash.reduce';
 import get from 'lodash.get';
 import omit from 'lodash.omit';
 
-import pluralize from 'pluralize'
-import camelize from 'voca/camel_case'
+import pluralize from 'pluralize';
+import camelize from 'voca/camel_case';
 
 import queryBuilder from './query-builder.js';
 export const queryFor = queryBuilder;
@@ -173,7 +173,9 @@ function _findRelatedSchemaKey(schemas, resourceNamePlural) {
  * @param {Array} cur
  */
 function _toMergeMap(acc, cur) {
-  return Object.assign({}, acc, { [cur]: merge });
+  return Object.assign({}, acc, {
+    [cur]: (prev, next) => _.merge({}, prev, next)
+  });
 }
 
 /**
@@ -194,7 +196,8 @@ function _toQuery(schema, resourceNamePlural, schemas) {
           _findRelatedSchemaKey(schemas, resourceNamePlural),
           []
         )
-      ).map(camelize)
+      )
+      .map(camelize);
 
     return {
       url,
