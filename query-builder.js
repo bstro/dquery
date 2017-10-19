@@ -1,7 +1,6 @@
 import { singular } from 'pluralize';
 import set from 'lodash.set';
 import last from 'lodash.last';
-import isArray from 'lodash.isarray';
 import isString from 'lodash.isstring';
 import isEmpty from 'lodash.isempty';
 import negate from 'lodash.negate';
@@ -59,7 +58,7 @@ class QueryExpression {
         if (parent) return acc.concat(parent.concat(cur));
         return acc.concat(cur);
       }
-      if (isArray(cur)) {
+      if (Array.isArray(cur)) {
         const parent = last(acc);
         return acc.concat(cur.reduce(this._toQueryArray(parent), []));
       }
