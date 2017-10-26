@@ -163,9 +163,10 @@ function _normalize(schemas) {
 
     var key = rest[0];
 
-    if (!schemas[(0, _pluralize2.default)(key)]) throw new Error('No schema exists for key "' + key + '". Make sure a definition exists for your resource name in model_definitions.js."');
+    key = (0, _camel_case2.default)((0, _pluralize2.default)(key));
+    if (!schemas[key]) throw new Error('No schema exists for key "' + key + '". Make sure a definition exists for your resource name in model_definitions.js."');
     // ^ @todo p3 write documentation for error
-    return (0, _lodash4.default)(acc, (0, _normalizr.normalize)([].concat(cur), [schemas[(0, _pluralize2.default)(key)]]).entities);
+    return (0, _lodash4.default)(acc, (0, _normalizr.normalize)([].concat(cur), [schemas[key]]).entities);
     // ^ we concat cur to lift it into the array functor so that we can map over it later without everything breaking.
     // ^ we pluralize the key to accommodate for single objects returned by the server with a singularized key.
   };

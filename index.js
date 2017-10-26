@@ -119,15 +119,16 @@ function _walkThroughSchemas(prev, cur) {
  */
 function _normalize(schemas) {
   return (acc, cur, ...rest) => {
-    const [key] = rest;
-    if (!schemas[pluralize(key)])
+    let [key] = rest;
+    key = camelize(pluralize(key));
+    if (!schemas[key])
       throw new Error(
         `No schema exists for key "${key}". Make sure a definition exists for your resource name in model_definitions.js."`
       );
     // ^ @todo p3 write documentation for error
     return merge(
       acc,
-      normalize([].concat(cur), [schemas[pluralize(key)]]).entities
+      normalize([].concat(cur), [schemas[key]]).entities
     );
     // ^ we concat cur to lift it into the array functor so that we can map over it later without everything breaking.
     // ^ we pluralize the key to accommodate for single objects returned by the server with a singularized key.
